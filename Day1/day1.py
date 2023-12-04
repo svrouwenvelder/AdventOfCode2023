@@ -1,6 +1,6 @@
 import re
-from typing import Final
 from collections.abc import Callable
+from typing import Final
 
 PATH_TO_FILE: Final[str] = "./Day1/input_file.txt"
 
