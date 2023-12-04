@@ -4,7 +4,7 @@ from collections.abc import Callable
 
 PATH_TO_FILE: Final[str] = "./Day1/input_file.txt"
 
-NUMBER_MAPPING: dict[str, str] = {
+NUMBER_MAPPING: Final[dict[str, str]] = {
     "one": 1,
     "two": 2,
     "three": 3,
