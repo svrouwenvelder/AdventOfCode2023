@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from typing import Final
-from dataclasses import dataclass
 import math
 import re
+from dataclasses import dataclass
+from typing import Final
 
 PATH_TO_FILE: Final[str] = "./Day3/input_file.txt"
 TEST_FILE: Final[str] = "./Day3/test_input.txt"
