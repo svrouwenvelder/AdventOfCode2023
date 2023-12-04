@@ -44,10 +44,6 @@ def get_sum_of_numerals(
     return total_sum
 
 
-def insert_char(string: str, char: str, index: int) -> str:
-    return string[0 : index + 1] + char + string[index:]
-
-
 def to_numeral(string: str) -> int:
     if string.isdigit():
         return int(string)
