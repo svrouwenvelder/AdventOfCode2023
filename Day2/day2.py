@@ -50,7 +50,7 @@ def get_cube_power(record: str):
     return result
 
 
-def add_feasible_ids(path_to_file: str) -> int:
+def sum_feasible_ids(path_to_file: str) -> int:
     with open(path_to_file, "r+") as file:
         return sum(
             [
@@ -61,14 +61,14 @@ def add_feasible_ids(path_to_file: str) -> int:
         )
 
 
-def get_summed_cube_power(path_to_file: str) -> int:
+def sum_cube_power(path_to_file: str) -> int:
     with open(path_to_file, "r+") as file:
         return sum([get_cube_power(game_record) for game_record in file.readlines()])
 
 
 if __name__ == "__main__":
     print("PART 1")
-    print(add_feasible_ids(PATH_TO_FILE))
+    print(sum_feasible_ids(PATH_TO_FILE))
 
     print("PART 2")
-    print(get_summed_cube_power(PATH_TO_FILE))
+    print(sum_cube_power(PATH_TO_FILE))
