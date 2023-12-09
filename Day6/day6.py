@@ -69,4 +69,5 @@ if __name__ == "__main__":
 
     print("Part 2")
     record: RaceRecord = load_as_one_record(PATH_TO_FILE)
+    # can be made more efficient, as not all possibilites have to be evaluated
     print(get_number_of_possibilities_to_beat_record(record, min_charge_duration=14))
