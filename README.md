@@ -1,3 +1,3 @@
 # AdventOfCode2023
 
-assigntments: https://adventofcode.com/2023
+assignments: https://adventofcode.com/2023
