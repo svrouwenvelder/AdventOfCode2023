@@ -64,6 +64,7 @@ if __name__ == "__main__":
     print(traverse(command, nodes, "AAA", terminal_condition))
 
     print("PART 2")
+    # there is a noticable sequence in the path of each starting point. 
     terminal_condition = lambda x: x[-1] == "Z"
     loops = [
         traverse(command, nodes, start, terminal_condition)
