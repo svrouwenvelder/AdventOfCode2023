@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import Final
 
@@ -12,6 +13,10 @@ class Vector2D:
     x: int
     y: int
 
+NORTH: Final[Vector2D] = Vector2D(0, -1)
+SOUTH: Final[Vector2D] = Vector2D(0, 1)
+EAST: Final[Vector2D] = Vector2D(1, 0)
+WEST: Final[Vector2D] = Vector2D(-1, 0)
 
 @dataclass
 class Position:
@@ -36,11 +41,10 @@ class Maze:
                 if element == "S":
                     return Position(row_number, collumn_number)
 
-
-NORTH: Final[Vector2D] = Vector2D(0, -1)
-SOUTH: Final[Vector2D] = Vector2D(0, 1)
-EAST: Final[Vector2D] = Vector2D(1, 0)
-WEST: Final[Vector2D] = Vector2D(-1, 0)
+@dataclass
+class PathElement:
+    element: str
+    position: Position
 
 
 def get_next_vector(current_vector: Vector2D, element: str) -> Vector2D:
@@ -78,19 +82,69 @@ def initial_direction(
     raise ValueError("SNAFU")
 
 
-def get_length(maze: Maze) -> int:
+def get_path(maze: Maze) -> len(PathElement):
     current_direction, current_position, element = initial_direction(
         maze, maze.start_position
     )
-    count: int = 0
+    path: list[PathElement] = [PathElement(element, current_position)]
     while element != "S":
         current_direction = get_next_vector(current_direction, element)
         current_position = current_position.move(current_direction)
         element = maze.get_element(current_position)
-        count += 1
-    return count + 1
+        path.append(PathElement(element, current_position))
+    return path
 
 
+def get_crossings(path: list[PathElement]) -> dict[int]:
+    a = defaultdict(list)
+    element_inside_loop = 0
+    for element in path:
+        a[element.position.row].append(element)
+    for row in a.values():
+        path_elements = {element.position.column: element.element for element in row}
+
+        min_column = min(path_elements)
+        max_column = max(path_elements)
+
+        is_inside = False
+        concave = False
+        convex = False
+        for column in range(min_column, max_column +1):
+            if column not in path_elements:
+                if is_inside:
+                    element_inside_loop += 1
+            else:
+                element = path_elements[column]
+
+                if element == '|':
+                    is_inside = not is_inside     
+
+                elif element in 'LJ':
+                    concave = not concave
+
+                elif element in 'SF7':
+                    convex = not convex
+                    
+                if concave and convex:
+                    is_inside = not is_inside
+                    concave = False
+                    convex = False
+    return element_inside_loop
+
+
+            
 if __name__ == "__main__":
     print("PART 1")
-    print(get_length(import_maze(PATH_TO_FILE)) / 2)
+    maze = import_maze(PATH_TO_FILE)
+    path: list[PathElement] = get_path(maze)
+    print(len(path) // 2)
+
+    print(" ")
+    print("PART 2")
+    # using the Ray Casting algorithm
+    # https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
+    print(get_crossings(path))
+
+
+
+
