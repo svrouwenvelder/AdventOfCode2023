@@ -54,11 +54,11 @@ def extract_numbers(record: str, row_number: int, symbols: list[Location]) -> li
     return [
         int(match.group())
         for match in matches
-        if is_adjecent_to_symbol(match.span(), row_number, symbols)
+        if is_adjacent_to_symbol(match.span(), row_number, symbols)
     ]
 
 
-def is_adjecent_to_symbol(
+def is_adjacent_to_symbol(
     span: tuple[int, int], row_number: int, symbols: list[Location]
 ):
     return any(
@@ -83,13 +83,13 @@ def sum_numbers_next_to_starts(path_to_file: str) -> int:
     star_locations = extract_symbol_locations(data, is_star)
     total = 0
     for location in star_locations:
-        numbers = get_adjecent_numbers(location, data)
+        numbers = get_adjacent_numbers(location, data)
         if len(numbers) == 2:
             total += numbers[0] * numbers[1]
     return total
 
 
-def get_adjecent_numbers(location: Location, data):
+def get_adjacent_numbers(location: Location, data):
     numbers = []
     for row_nr in range(location.y - 1, location.y + 2):
         numbers += extract_numbers(data[row_nr], row_nr, [location])
