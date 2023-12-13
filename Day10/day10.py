@@ -13,10 +13,12 @@ class Vector2D:
     x: int
     y: int
 
+
 NORTH: Final[Vector2D] = Vector2D(0, -1)
 SOUTH: Final[Vector2D] = Vector2D(0, 1)
 EAST: Final[Vector2D] = Vector2D(1, 0)
 WEST: Final[Vector2D] = Vector2D(-1, 0)
+
 
 @dataclass
 class Position:
@@ -40,6 +42,7 @@ class Maze:
             for collumn_number, element in enumerate(row):
                 if element == "S":
                     return Position(row_number, collumn_number)
+
 
 @dataclass
 class PathElement:
@@ -95,6 +98,7 @@ def get_path(maze: Maze) -> len(PathElement):
     return path
 
 
+# TODO: refactor and create a method to find the element of 'S'
 def get_crossings(path: list[PathElement]) -> dict[int]:
     a = defaultdict(list)
     element_inside_loop = 0
@@ -109,22 +113,22 @@ def get_crossings(path: list[PathElement]) -> dict[int]:
         is_inside = False
         concave = False
         convex = False
-        for column in range(min_column, max_column +1):
+        for column in range(min_column, max_column + 1):
             if column not in path_elements:
                 if is_inside:
                     element_inside_loop += 1
             else:
                 element = path_elements[column]
 
-                if element == '|':
-                    is_inside = not is_inside     
+                if element == "|":
+                    is_inside = not is_inside
 
-                elif element in 'LJ':
+                elif element in "LJ":
                     concave = not concave
 
-                elif element in 'SF7':
+                elif element in "SF7":
                     convex = not convex
-                    
+
                 if concave and convex:
                     is_inside = not is_inside
                     concave = False
@@ -132,7 +136,6 @@ def get_crossings(path: list[PathElement]) -> dict[int]:
     return element_inside_loop
 
 
-            
 if __name__ == "__main__":
     print("PART 1")
     maze = import_maze(PATH_TO_FILE)
@@ -144,7 +147,3 @@ if __name__ == "__main__":
     # using the Ray Casting algorithm
     # https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
     print(get_crossings(path))
-
-
-
-
